@@ -1,0 +1,30 @@
+<template name="list">
+	<view class="list-box">
+		<view class="title box box-align-center box-pack-center">
+			<view class="left"></view>
+			<view class="color-black fz-14 text-align" style="width:150rpx;text-align:center;">{{Title}}</view>
+			<view class="right"></view>
+		</view>
+		<view class="noData text-align fz-14 color-gray" style="margin-top:30rpx;" wx:if="{{list.length == 0}}">
+			暂无记录
+		</view>
+		<view wx:if="{{list.length > 0}}" class="list box box-pack-between box-align-center bg-white fz-12" wx:for="{{list}}" data-index="{{index}}" wx:key="item" bindtap="openServiceMask">
+			<view class="box">
+				<image src="{{item.logo}}" class="image" style="background:green;border-radius:20rpx;"/>
+				<view class="box box-tb box-pack-between">
+					<view class="box">
+						<view class="title font-weight fz-16 color-black box box-align-center">
+							{{item.name}}
+							<view wx:if="{{item.color_type == 1 && item.sub_name !=null}}" class="sub_name color-white fz-10 font-normal {{item.color_type == 1 && item.sub_name !=null ? 'bg-red' : ''}}">{{item.sub_name}}</view>
+							<view wx:if="{{item.color_type == 2 && item.sub_name !=null}}" class="sub_name color-white fz-10 font-normal {{item.color_type == 2 && item.sub_name !=null ? 'bg-orange' : ''}}">{{item.sub_name}}</view>
+							<view wx:if="{{item.color_type == 3 && item.sub_name !=null}}" class="sub_name color-white fz-10 font-normal {{item.color_type == 3 && item.sub_name !=null ? 'bg-yellow' : ''}}">{{item.sub_name}}</view>
+							<view wx:if="{{item.color_type == 4 && item.sub_name !=null}}" class="sub_name color-white fz-10 font-normal {{item.color_type == 4 && item.sub_name !=null ? 'bg-green' : ''}}">{{item.sub_name}}</view>
+						</view>		
+					</view>
+					<view class="desc color-gray">{{item.apply_title}}：<text class="color-red font-weight fz-14">{{item.apply_amount}}</text></view>
+				</view>
+			</view>
+			<button type="default" class="bg-blue" size="mini">点击进入</button>
+		</view>
+	</view>
+</template>

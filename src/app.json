@@ -1,0 +1,33 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/authorize/authorize",
+    "pages/person/person",
+    "pages/webView/webView"
+    
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#2891fa",
+    "navigationBarTitleText": "速i助",
+    "navigationBarTextStyle":"white"
+  },
+  "tabBar": {
+    "color":"#999",
+    "selectedColor": "#2891fa",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "images/icon_pro.png",
+      "selectedIconPath": "images/icon_pro_active.png",
+      "text": "产品"
+    }, {
+      "pagePath": "pages/person/person",
+       "iconPath": "images/icon_foot.png",
+      "selectedIconPath": "images/icon_foot_active.png",
+      "text": "足迹"
+    }]
+  }
+  
+}
