@@ -1,7 +1,7 @@
 <import src="../../templates/list" />
 <import src="../../templates/service-mask" />
 <view class="homepage">
-	<!-- 顶部幻灯片列表a -->
+	<!-- 顶部幻灯片列表部分 -->
 	<view class="swiper-box">
 		<view wx:if="{{imgUrls.length > 1}}">
 			<swiper indicator-dots="{{indicatorDots}}"
