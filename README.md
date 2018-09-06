@@ -1,1 +1,1 @@
-#credit-speed-wxapp
+#help-speed-wxapp-1.0
