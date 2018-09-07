@@ -92,8 +92,19 @@ Page({
 
     // 打开客服弹框
     openServiceMask: function (options) {
+        var index = options.currentTarget.dataset.index;
+        var quick_iborrow_id = options.currentTarget.dataset.quick_iborrow_id;
+        var userInfo = "";
+        if(wx.getStorageSync('userInfo')){
+            userInfo = wx.getStorageSync('userInfo')
+        }
+        // 点击记录足迹
+        apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+            console.log('记录',res)
+        })
+        // 弹出客服Mask
         this.setData({
-            index:options.currentTarget.dataset.index
+            index:index
         })
         var isShow = this.data.show ? false : true;
         var delay = isShow ? 30 : 1000;

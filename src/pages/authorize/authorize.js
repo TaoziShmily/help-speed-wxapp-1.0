@@ -19,15 +19,24 @@ Page({
 	      	if(res.code){
 	      		wx.getUserInfo({
 					success:function(res){
-					    apiRequest('/i/userwx','POST',{encryptedData:res.encryptedData,iv:res.iv,code:code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+						console.log('登录',res)
+					    apiRequest('/i/weixinsiz/login','POST',{encryptedData:res.encryptedData,iv:res.iv,code:code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+					    	console.log('登录1',res)
 					    	if(res.statusCode == 200){
-					    		console.log('登录1',res)
-					    		app.userInfo = res.data
-					    		wx.setStorageSync('isAuthorize',true)
-								wx.setStorageSync('userInfo',app.userInfo)
-								wx.switchTab({
-							        url: '/pages/index/index'
-							    })
+					    		if(res.data.state== 'success'){
+					    			app.userInfo = res.data
+						    		wx.setStorageSync('isAuthorize',true)
+									wx.setStorageSync('userInfo',app.userInfo)
+									wx.switchTab({
+								        url: '/pages/index/index'
+								    })
+						    	}else{
+						    		 wx.showModal({
+									  title: '错误提示',
+									  content: '请求授权登录接口出错',
+									  showCancel:false,
+									})
+						    	}
 					    	}
 					    })
 					},
@@ -38,7 +47,6 @@ Page({
 					}
 				})
 	      	}
-	        // 发送 res.code 到后台换取 openId, sessionKey, unionId
 	      }
 	    })	
 	},
@@ -52,15 +60,22 @@ Page({
 			if(that.data.code){
 				wx.getUserInfo({
 					success:function(res){
-					    apiRequest('/i/userwx','POST',{encryptedData:res.encryptedData,iv:res.iv,code:that.data.code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+					    apiRequest('/i/weixinsiz/login','POST',{encryptedData:res.encryptedData,iv:res.iv,code:that.data.code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
 					    	if(res.statusCode == 200){
-					    		console.log('登录成功2',res)
-					    		app.userInfo = res.data
-					    		wx.setStorageSync('isAuthorize',true)
-								wx.setStorageSync('userInfo',app.userInfo)
-								wx.switchTab({
-							        url: '/pages/index/index'
-							    })
+					    		if(res.data.state== 'success'){
+					    			app.userInfo = res.data
+						    		wx.setStorageSync('isAuthorize',true)
+									wx.setStorageSync('userInfo',app.userInfo)
+									wx.switchTab({
+								        url: '/pages/index/index'
+								    })
+						    	}else{
+								     wx.showModal({
+									  title: '错误提示',
+									  content: '请求授权登录接口出错',
+									  showCancel:false,
+									})
+						    	}
 					    	}
 					    })
 					},

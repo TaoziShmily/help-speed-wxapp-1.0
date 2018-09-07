@@ -9,7 +9,7 @@
         <text class="userinfo-nickname color-white fz-12">{{userInfo.nick_name}}</text>
       </view>
   </view>
-  <template is="list" data="{{Title,list}}"></template>
+  <template is="recordList" data="{{Title,list}}"></template>
 </view>
 <template is="service-mask" data="{{index,show,runAM}}"></template>
 

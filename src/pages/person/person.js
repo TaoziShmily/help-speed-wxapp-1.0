@@ -9,13 +9,17 @@ Page({
     list:[],
     index:0
   },
-        // 获取首页数据
+    // 获取足迹列表数据
     getData () {
-        apiRequest('/i/iborrow/index?id=710','POST',{},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
-            console.log('res',res)
-          if (res.statusCode == 200 && res.data.status == "SUCCEED") {
+        var userInfo = "";
+        if(wx.getStorageSync('userInfo')){
+            userInfo = wx.getStorageSync('userInfo')
+        }
+        apiRequest('/i/weixinsiz/history','POST',{user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+            console.log('足迹列表',res)
+          if (res.statusCode == 200) {
             this.setData({
-                list:res.data.listIborrows,
+                list:res.data,
                 userInfo: wx.getStorageSync('userInfo') || []
             })
             if (wx.hideToast) {
