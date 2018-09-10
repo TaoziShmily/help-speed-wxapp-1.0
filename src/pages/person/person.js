@@ -7,7 +7,8 @@ Page({
     userInfo: {},
     Title:'我的足迹',
     list:[],
-    index:0
+    index:0,
+    sessionFrom:''
   },
     // 获取足迹列表数据
     getData () {
@@ -61,8 +62,10 @@ Page({
     },
     // 打开客服弹框
     openServiceMask: function (options) {
+        console.log('openServiceMask',options)
         this.setData({
-            index:options.currentTarget.dataset.index
+            index:options.currentTarget.dataset.index,
+            sessionFrom:options.currentTarget.dataset.sessionfrom
         })
         var isShow = this.data.show ? false : true;
         var delay = isShow ? 30 : 1000;
@@ -88,11 +91,26 @@ Page({
         }.bind(this), delay);
     },
 
+    // 点击量
+    postClickLog(e) {
+        var jump_url = e.currentTarget.dataset.jump_url;
+        wx.request({
+          url: jump_url,
+        }) 
+    },
     // 关闭客服弹框
     closeServiceMask(){
         this.setData({
             show: false,
             runAM: false
+        })
+    },
+
+    // 跳转到h5
+    goWebViewPage(e){
+        var jump_url = e.currentTarget.dataset.jump_url;
+        wx.navigateTo({
+          url: '/pages/webView/webView?jump_url='+jump_url
         })
     },
 })

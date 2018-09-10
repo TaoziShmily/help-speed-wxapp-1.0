@@ -84,22 +84,42 @@ Page({
 
       // 首页幻灯片跳转到h5
     goWebViewPage(e){
+        console.log('e',e)
+        var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
         var jump_url = e.currentTarget.dataset.jump_url;
-        wx.navigateTo({
-          url: '/pages/webView/webView?jump_url='+jump_url
-        })
-    },
-
-    // 打开客服弹框
-    openServiceMask: function (options) {
-        var index = options.currentTarget.dataset.index;
-        var quick_iborrow_id = options.currentTarget.dataset.quick_iborrow_id;
         var userInfo = "";
         if(wx.getStorageSync('userInfo')){
             userInfo = wx.getStorageSync('userInfo')
         }
         // 点击记录足迹
         apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+            console.log('记录',res)
+        })
+        wx.navigateTo({
+          url: '/pages/webView/webView?jump_url='+jump_url
+        })
+    },
+
+    // 点击量
+    postClickLog(e) {
+        var jump_url = e.currentTarget.dataset.jump_url;
+        wx.request({
+          url: jump_url,
+        }) 
+    },
+
+    // 打开客服弹框
+    openServiceMask: function (options) {
+        console.log('options',options)
+        var index = options.currentTarget.dataset.index;
+        var quick_iborrow_id = options.currentTarget.dataset.quick_iborrow_id;
+        var sessionFrom = options.currentTarget.dataset.sessionfrom;
+        var userInfo = "";
+        if(wx.getStorageSync('userInfo')){
+            userInfo = wx.getStorageSync('userInfo')
+        }
+        // 点击记录足迹
+        apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id,sessionFrom:sessionFrom},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
             console.log('记录',res)
         })
         // 弹出客服Mask

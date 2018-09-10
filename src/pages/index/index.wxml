@@ -3,21 +3,26 @@
 <view class="homepage">
 	<!-- 顶部幻灯片列表部分 -->
 	<view class="swiper-box">
-		<view wx:if="{{imgUrls.length > 1}}">
+		<view>
 			<swiper indicator-dots="{{indicatorDots}}"
 			  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="{{indicatorActiveColor}}">
-			  <view wx:for="{{imgUrls}}" wx:key="item" data-jump_url="{{item.jump_url}}" bindtap="goWebViewPage">
+			  <view wx:if="{{item.jump_type == 1}}" bindtap="goWebViewPage"  data-jump_url="{{item.jump_url}}" data-quick_iborrow_id="{{item.quick_iborrow_id}}"  wx:for="{{imgUrls}}" wx:key="item">
 			    <swiper-item>
 			      <image src="{{item.logo}}" class="slide-image" width="355" height="150"/>
 			    </swiper-item>
 			  </view>
+			  <navigator wx:if="{{item.jump_type == 2}}" bindtap='postClickLog'  data-quick_iborrow_id="{{item.quick_iborrow_id}}" open-type="navigate" target="miniProgram" app-id="{{item.app_id}}" path="{{item.app_path}}" wx:for="{{imgUrls}}" wx:key="item" >
+					<swiper-item>
+						<image src="{{item.logo}}" class="slide-image" width="355" height="150"/>
+					</swiper-item>
+				</navigator>
 			</swiper>
 		</view>
-		<view wx:else>
+		<!-- <view wx:else>
 			<view wx:for="{{imgUrls}}" wx:key="item" data-jump_url="{{item.jump_url}}" bindtap="goWebViewPage">
 				<image src="{{item.logo}}" class="slide-image" width="355" height="150"/>
 			</view>
-		</view>
+		</view> -->
 	</view>
 
 	<!-- 提示语 -->
@@ -26,7 +31,7 @@
 	</view> -->
 	<!-- 列表 -->
 	<view class="list-box bg-gray">
-		<template is="list" data="{{Title,list,index}}"></template>
+		<template is="list" data="{{Title,list,index,sessionFrom}}"></template>
 	</view>
 </view>
 <template is="service-mask" data="{{index,show,runAM}}"></template>
