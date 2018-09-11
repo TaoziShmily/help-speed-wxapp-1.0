@@ -11,7 +11,6 @@ Page({
 		// 登录
 	    wx.login({
 	      success: res => {
-	      	console.log('code1',res.code)
 	      	var code = res.code
 	      	that.setData({
 	      		code:res.code
@@ -19,9 +18,7 @@ Page({
 	      	if(res.code){
 	      		wx.getUserInfo({
 					success:function(res){
-						console.log('登录',res)
 					    apiRequest('/i/weixinsiz/login','POST',{encryptedData:res.encryptedData,iv:res.iv,code:code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
-					    	console.log('登录1',res)
 					    	if(res.statusCode == 200){
 					    		if(res.data.state== 'success'){
 					    			app.userInfo = res.data
@@ -93,7 +90,6 @@ Page({
 	// 分享功能
     onShareAppMessage: function (res) {
       if (res.from === 'button') {
-        console.log(res.target)
       }
       return {
         title: '速i助',

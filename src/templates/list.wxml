@@ -38,6 +38,7 @@
 		<view class="noData text-align fz-14 color-gray" style="margin-top:30rpx;" wx:if="{{list.length == 0}}">
 			暂无记录
 		</view>
+
 		<!-- 弹出客服页 -->
 		<view wx:if="{{list.length > 0 && item.place_name == 'list'}}" bindtap="openServiceMask" class="list box box-pack-between box-align-center bg-white fz-12" wx:for="{{list}}" data-index="{{index}}" data-sessionFrom="{{item.session_from}}" wx:key="item" >
 			<view class="box">
@@ -58,10 +59,11 @@
 			<button type="default" class="bg-blue" size="mini">点击进入</button>
 		</view>
 		<!-- end -->
+		
 		<!-- 跳转h5 -->
 		<view wx:if="{{list.length > 0 && item.place_name == 'top' && item.jump_type ==1 }}" bindtap="goWebViewPage"  data-jump_url="{{item.jump_url}}" class="list box box-pack-between box-align-center bg-white fz-12" wx:for="{{list}}" data-index="{{index}}" data-sessionFrom="{{item.session_from}}" wx:key="item" >
 			<view class="box">
-				<image src="{{item.logo}}" class="image" style="background:green;border-radius:20rpx;"/>
+				<image  mode="aspectFill" src="{{item.logo}}" class="image" style="background:green;border-radius:20rpx;"/>
 				<view class="box box-tb box-pack-between">
 					<view class="box">
 						<view class="title font-weight fz-16 color-black box box-align-center">
@@ -78,10 +80,11 @@
 			<button type="default" class="bg-blue" size="mini">点击进入</button>
 		</view>
 		<!-- end -->
+
 		<!-- 跳转小程序 -->
-		<view wx:if="{{list.length > 0 && item.place_name == 'top' && item.jump_type == 2 }}" bindtap='postClickLog' data-jump_url="{{item.jump_url}}" open-type="navigate" target="miniProgram" app-id="{{item.app_id}}" path="{{item.app_path}}" class="list box box-pack-between box-align-center bg-white fz-12" wx:for="{{list}}" data-index="{{index}}" wx:key="item" >
+		<navigator wx:if="{{list.length > 0 && item.place_name == 'top' && item.jump_type == 2 }}" bindtap='postClickLog' data-quick_iborrow_id="{{item.quick_iborrow_id}}" data-jump_url="{{item.jump_url}}" open-type="navigate" target="miniProgram" app-id="{{item.app_id}}" path="{{item.app_path}}" class="list box box-pack-between box-align-center bg-white fz-12" wx:for="{{list}}" data-index="{{index}}" wx:key="item" >
 			<view class="box">
-				<image src="{{item.logo}}" class="image" style="background:green;border-radius:20rpx;"/>
+				<image mode="aspectFill" src="{{item.logo}}" class="image" style="background:green;border-radius:20rpx;"/>
 				<view class="box box-tb box-pack-between">
 					<view class="box">
 						<view class="title font-weight fz-16 color-black box box-align-center">
@@ -96,7 +99,7 @@
 				</view>
 			</view>
 			<button type="default" class="bg-blue" size="mini">点击进入</button>
-		</view>
+		</navigator>
 		<!-- end -->
 	</view>
 </template>

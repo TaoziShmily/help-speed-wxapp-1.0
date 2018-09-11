@@ -36,6 +36,7 @@ Page({
         }, res => {
           wx.showModal({
               title: '错误提示',
+              content: '请求出错',
               showCancel:false
           })
         })
@@ -93,7 +94,17 @@ Page({
 
     // 点击量
     postClickLog(e) {
+        console.log('e',e)
         var jump_url = e.currentTarget.dataset.jump_url;
+        var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
+        var userInfo = "";
+        if(wx.getStorageSync('userInfo')){
+            userInfo = wx.getStorageSync('userInfo')
+        }
+        // 点击记录足迹
+        apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+            console.log('记录',res)
+        })
         wx.request({
           url: jump_url,
         }) 
@@ -104,6 +115,28 @@ Page({
             show: false,
             runAM: false
         })
+        // var isShow = false;
+        // var delay = isShow ? 30 : 1000;
+        // if (isShow) {
+        //     this.setData({
+        //     show: isShow
+        // });
+        // } else {
+        //     this.setData({
+        //         runAM: isShow
+        //     });
+        // }
+        // setTimeout(function () {
+        //     if (isShow) {
+        //         this.setData({
+        //         runAM: isShow
+        //     });
+        //     } else {
+        //             this.setData({
+        //                 show: isShow
+        //             });
+        //         }
+        //     }.bind(this), delay);
     },
 
     // 跳转到h5
