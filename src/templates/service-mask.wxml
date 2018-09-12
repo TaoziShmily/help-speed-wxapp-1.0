@@ -1,9 +1,8 @@
 <template name="service-mask">
-	<!-- 弹出客服 -->
-	<view class="mask {{show ? 'show' : 'hide'}}" >
-		<view class="mask-shadow {{runAM ? 'mask-shadow-on' : ''}}" catchtap="closeServiceMask"></view>
-		<view class="mask-con bg-white box box-tb box-align-center {{runAM ? 'mask-con-show' : ''}}">
-			<view class="close" catchtap="closeServiceMask"><image src="/images/close.png" class="close"/></view
+	<view class="mask"  wx:if="{{showModalStatus}}">
+		<view class="mask-shadow {{runAM ? 'mask-shadow-on' : ''}}" bindtap="hideModal"></view>
+		<view class="mask-con bg-white box box-tb box-align-center" animation="{{animationData}}" >
+			<view class="close" bindtap="hideModal"><image src="/images/close.png" class="close"/></view
 			>
 			<view class="title fz-16 font-weight">领取提示</view>
 			<view class="desc fz-14 text-align">

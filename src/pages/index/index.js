@@ -2,6 +2,8 @@
 //index.js
 const app = getApp();
 import {apiRequest} from '../../utils/util';
+
+let animationShowHeight = 300;
 Page({
  	data: {
     imgUrls: [],
@@ -14,8 +16,11 @@ Page({
     interval: 5000,
     duration: 1000,
     indicatorActiveColor:'#fff',
-    show: false,
-    runAM: false
+    showModalStatus: false,
+    imageHeight: 0,
+    imageWidth: 0,
+    runAM:false
+
   	},
     
     // 获取首页数据
@@ -72,13 +77,19 @@ Page({
                 url: '/pages/authorize/authorize',
             })
         }
+        let that = this;
+        wx.getSystemInfo({
+          success: function (res) {
+            animationShowHeight = res.windowHeight;
+          }
+        })
     },
 
     // 监听页面隐藏
     onHide:function(){
         this.setData({
-            show: false,
-            runAM: false
+            showModalStatus: false,
+            runAM:false
         })
     },
 
@@ -102,7 +113,6 @@ Page({
 
     // 点击量
     postClickLog(e) {
-        console.log('点击量',e)
         var jump_url = e.currentTarget.dataset.jump_url;
         var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
         var userInfo = "";
@@ -134,62 +144,54 @@ Page({
         })
         // 弹出客服Mask
         this.setData({
-            index:index
+            index:index,
+            runAM:true
         })
-        var isShow = this.data.show ? false : true;
-        var delay = isShow ? 30 : 1000;
-        if (isShow) {
+        var animation = wx.createAnimation({
+            duration: 300,
+            timingFunction: "linear",
+            delay: 0
+        })
+        this.animation = animation
+        console.log('this.animation',this.animation)
+        animation.translateY(animationShowHeight).step()
+        this.setData({
+            animationData: animation.export(),
+            showModalStatus: true,
+            
+        })
+        setTimeout(function () {
+            animation.translateY(0).step()
             this.setData({
-            show: isShow
-        });
-        } else {
-            this.setData({
-                runAM: isShow
-            });
-        }
-    setTimeout(function () {
-        if (isShow) {
-            this.setData({
-            runAM: isShow
-        });
-        } else {
-                this.setData({
-                    show: isShow
-                });
-            }
-        }.bind(this), delay);
+                animationData: animation.export()
+            })
+        }.bind(this), 0)
+
   },
 
     // 关闭客服弹框
-    closeServiceMask(){
-        // this.setData({
-        //     show: false,
-        //     runAM: false
-        // })
-        // var isShow = false;
-        // // var runAM = false;
-        // var delay = isShow ? 30 : 1000;
-        // if (isShow) {
-        //     this.setData({
-        //     show: isShow
-        // });
-        // } else {
-        //     this.setData({
-        //         runAM: isShow
-        //     });
-        // }
-        setTimeout(function () {
-            if (isShow) {
-                this.setData({
-                runAM: isShow
-            });
-            } else {
-                    this.setData({
-                        show: isShow
-                    });
-                }
-            }.bind(this), delay);
-        },
+    hideModal: function () {
+    // 隐藏遮罩层
+    var animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0
+    })
+    this.animation = animation;
+    animation.translateY(animationShowHeight).step()
+    this.setData({
+      animationData: animation.export(),
+      runAM:false
+    })
+    setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export(),
+        showModalStatus: false
+      })
+    }.bind(this), 300)
+  },
+
     // 分享功能
     onShareAppMessage: function (res) {
       if (res.from === 'button') {

@@ -1,14 +1,18 @@
 
 const app = getApp();
 import {apiRequest} from '../../utils/util';
-
+let animationShowHeight = 300;
 Page({
   data: {
     userInfo: {},
     Title:'我的足迹',
     list:[],
     index:0,
-    sessionFrom:''
+    sessionFrom:'',
+    showModalStatus: false,
+    imageHeight: 0,
+    imageWidth: 0,
+    runAM:false
   },
     // 获取足迹列表数据
     getData () {
@@ -43,6 +47,12 @@ Page({
     },
     // 页面加载
     onShow: function () {
+        let that = this;
+        wx.getSystemInfo({
+          success: function (res) {
+            animationShowHeight = res.windowHeight;
+          }
+        })
         if (wx.showToast) {
             wx.showToast({
                 title: '拼命加载中...',
@@ -57,8 +67,8 @@ Page({
     // 监听页面隐藏
     onHide:function(){
         this.setData({
-            show: false,
-            runAM: false
+            showModalStatus: false,
+            runAM:false
         })
     },
     // 打开客服弹框
@@ -66,30 +76,28 @@ Page({
         console.log('openServiceMask',options)
         this.setData({
             index:options.currentTarget.dataset.index,
-            sessionFrom:options.currentTarget.dataset.sessionfrom
+            sessionFrom:options.currentTarget.dataset.sessionfrom,
+            runAM:true
         })
-        var isShow = this.data.show ? false : true;
-        var delay = isShow ? 30 : 1000;
-        if (isShow) {
+        // 弹出客服Mask
+        var animation = wx.createAnimation({
+            duration: 300,
+            timingFunction: "linear",
+            delay: 0
+        })
+        this.animation = animation
+        animation.translateY(animationShowHeight).step()
+        this.setData({
+            animationData: animation.export(),
+            showModalStatus: true,
+            
+        })
+        setTimeout(function () {
+            animation.translateY(0).step()
             this.setData({
-            show: isShow
-        });
-        } else {
-            this.setData({
-                runAM: isShow
-            });
-    }
-    setTimeout(function () {
-        if (isShow) {
-            this.setData({
-            runAM: isShow
-        });
-        } else {
-                this.setData({
-                    show: isShow
-                });
-            }
-        }.bind(this), delay);
+                animationData: animation.export()
+            })
+        }.bind(this), 0)
     },
 
     // 点击量
@@ -110,34 +118,28 @@ Page({
         }) 
     },
     // 关闭客服弹框
-    closeServiceMask(){
-        this.setData({
-            show: false,
-            runAM: false
-        })
-        // var isShow = false;
-        // var delay = isShow ? 30 : 1000;
-        // if (isShow) {
-        //     this.setData({
-        //     show: isShow
-        // });
-        // } else {
-        //     this.setData({
-        //         runAM: isShow
-        //     });
-        // }
-        // setTimeout(function () {
-        //     if (isShow) {
-        //         this.setData({
-        //         runAM: isShow
-        //     });
-        //     } else {
-        //             this.setData({
-        //                 show: isShow
-        //             });
-        //         }
-        //     }.bind(this), delay);
-    },
+    // 关闭客服弹框
+    hideModal: function () {
+    // 隐藏遮罩层
+    var animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: "linear",
+      delay: 0
+    })
+    this.animation = animation;
+    animation.translateY(animationShowHeight).step()
+    this.setData({
+      animationData: animation.export(),
+      runAM:false
+    })
+    setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export(),
+        showModalStatus: false
+      })
+    }.bind(this), 300)
+  },
 
     // 跳转到h5
     goWebViewPage(e){
