@@ -6,12 +6,12 @@
 		<view>
 			<swiper indicator-dots="{{indicatorDots}}"
 			  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="rgba(255, 255, 255, .3)" indicator-active-color="{{indicatorActiveColor}}">
-			  <view wx:if="{{item.jump_type == 1}}" bindtap="goWebViewPage"  data-jump_url="{{item.jump_url}}" data-quick_iborrow_id="{{item.quick_iborrow_id}}"  wx:for="{{imgUrls}}" wx:key="item">
+			  <view wx:if="{{item.jump_type == 1}}" bindtap="goWebViewPage"  data-jump_url="{{item.jump_url}}" data-stat_view="{{item.stat_view}}" data-quick_iborrow_id="{{item.quick_iborrow_id}}"  wx:for="{{imgUrls}}" wx:key="item">
 			    <swiper-item>
 			      <image src="{{item.logo}}" class="slide-image" width="355" height="150"/>
 			    </swiper-item>
 			  </view>
-			  <navigator wx:if="{{item.jump_type == 2}}" bindtap='postClickLog' data-jump_url="{{item.jump_url}}" data-quick_iborrow_id="{{item.quick_iborrow_id}}" open-type="navigate" target="miniProgram" app-id="{{item.app_id}}" path="{{item.app_path}}" wx:for="{{imgUrls}}" wx:key="item" >
+			  <navigator wx:if="{{item.jump_type == 2}}" bindtap='postClickLog' data-jump_url="{{item.jump_url}}" data-stat_view="{{item.stat_view}}" data-quick_iborrow_id="{{item.quick_iborrow_id}}" open-type="navigate" target="miniProgram" app-id="{{item.app_id}}" path="{{item.app_path}}" wx:for="{{imgUrls}}" wx:key="item" >
 					<swiper-item>
 						<image src="{{item.logo}}" class="slide-image" width="355" height="150"/>
 					</swiper-item>
@@ -47,7 +47,7 @@
 			<view>在对话框回复任意提示信息，<text class="color-blue">如1</text></view>
 		</view>
 		<image src="/images/kefu_bj.png" class="slide-image" width="355" height="150"/>
-		<button type="default" class="bg-blue btn text-align" bindcontact="bindContact" open-type="contact" session-from="beizhu{{index+1}}">点击领取</button>
+		<button type="default" class="bg-blue btn text-align" bindtap="postClickLogTwo" open-type="contact" session-from="beizhu{{index+1}}">点击领取</button>
 	</view>
 </view>
 

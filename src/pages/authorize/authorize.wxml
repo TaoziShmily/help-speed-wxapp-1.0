@@ -2,7 +2,7 @@
 	<image class="logo" src="/images/logo.png"></image>
 	<view class="title fz-18 font-weight">速 i 助</view>
 	<view class="desc fz-16"><text>授权给速i助小程序后将获得\n你的微信头像、昵称等</text></view>
-	<button class="btn border-radius fz-16 color-white" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">确认授权</button>
+	<button class="btn border-radius fz-16 color-white" open-type="getUserInfo" bindgetuserinfo="getUserInfo">确认授权</button>
 </view>
 <view class="Mask" wx:if="{{Mask}}">
 	<view class="mask"></view>

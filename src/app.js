@@ -58,6 +58,6 @@ App({
     },
     globalData: {
         userInfo: null,
-        API_PATH:'https://api-dev.topeffects.cn'
+        API_PATH:'https://api.topeffects.cn/'
     }
 })

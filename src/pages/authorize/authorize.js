@@ -5,20 +5,30 @@ Page({
 		Mask:false,
 		code:''
 	},
-	// 获取用户信息
-	bindgetuserinfo(res){
+	// 页面加载
+	onLoad(){
+		// 设置页面标题
+		wx.setNavigationBarTitle({
+			title:'授权登录',
+		})
+	},
+	// 获取用户信息方法
+	getUserInfo(res){
+		console.log('登录')
 		var that = this;
 		// 登录
 	    wx.login({
 	      success: res => {
 	      	var code = res.code
+	      	console.log('code',code)
 	      	that.setData({
 	      		code:res.code
 	      	})
 	      	if(res.code){
 	      		wx.getUserInfo({
 					success:function(res){
-					    apiRequest('/i/weixinsiz/login','POST',{encryptedData:res.encryptedData,iv:res.iv,code:code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+						console.log('getUserInfo',res)
+					    apiRequest('i/weixinsiz/login','POST',{encryptedData:res.encryptedData,iv:res.iv,code:code},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
 					    	if(res.statusCode == 200){
 					    		if(res.data.state== 'success'){
 					    			app.userInfo = res.data

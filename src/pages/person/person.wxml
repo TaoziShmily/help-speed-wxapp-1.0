@@ -23,7 +23,7 @@
 			<view>在对话框回复任意提示信息，<text class="color-blue">如1</text></view>
 		</view>
 		<image src="/images/kefu_bj.png" class="slide-image" width="355" height="150"/>
-		<button type="default" class="bg-blue btn text-align" bindcontact="bindContact" open-type="contact" session-from="{{sessionFrom}}">点击领取</button>
+		<button type="default" class="bg-blue btn text-align" bindtap="postClickLogTwo" open-type="contact" session-from="{{sessionFrom}}">点击领取</button>
 	</view>
 </view>
 

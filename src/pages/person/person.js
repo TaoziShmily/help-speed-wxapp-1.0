@@ -12,7 +12,9 @@ Page({
     showModalStatus: false,
     imageHeight: 0,
     imageWidth: 0,
-    runAM:false
+    runAM:false,
+    jump_url:'',
+    stat_view:''
   },
     // 获取足迹列表数据
     getData () {
@@ -73,10 +75,11 @@ Page({
     },
     // 打开客服弹框
     openServiceMask: function (options) {
-        console.log('openServiceMask',options)
+        console.log('打开客服弹框客服',options)
         this.setData({
             index:options.currentTarget.dataset.index,
             sessionFrom:options.currentTarget.dataset.sessionfrom,
+            stat_view:options.currentTarget.dataset.stat_view,
             runAM:true
         })
         // 弹出客服Mask
@@ -102,8 +105,9 @@ Page({
 
     // 点击量
     postClickLog(e) {
-        console.log('e',e)
+        console.log('6666',e)
         var jump_url = e.currentTarget.dataset.jump_url;
+        var stat_view = e.currentTarget.dataset.stat_view;
         var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
         var userInfo = "";
         if(wx.getStorageSync('userInfo')){
@@ -113,11 +117,27 @@ Page({
         apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
             console.log('记录',res)
         })
+
+        // 点击量
         wx.request({
           url: jump_url,
         }) 
+
+        // 曝光量
+        wx.request({
+          url: stat_view,
+        }) 
     },
-    // 关闭客服弹框
+
+
+    // 点击领取按钮统计曝光
+    postClickLogTwo(){
+        console.log(99999,this.data.stat_view)
+        wx.request({
+          url: this.data.stat_view,
+        }) 
+    },
+
     // 关闭客服弹框
     hideModal: function () {
     // 隐藏遮罩层
@@ -143,10 +163,15 @@ Page({
 
     // 跳转到h5
     goWebViewPage(e){
+        console.log('222222',e)
+        var stat_view = e.currentTarget.dataset.stat_view;
         var jump_url = e.currentTarget.dataset.jump_url;
         wx.navigateTo({
           url: '/pages/webView/webView?jump_url='+jump_url
         })
+        wx.request({
+          url: stat_view,
+        }) 
     },
 })
 

@@ -19,13 +19,14 @@ Page({
     showModalStatus: false,
     imageHeight: 0,
     imageWidth: 0,
-    runAM:false
+    runAM:false,
+    stat_view:''
 
   	},
     
     // 获取首页数据
     getData () {
-        apiRequest('/i/iborrow/index?id=710','POST',{},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
+        apiRequest('/i/iborrow/index?id=1313','POST',{},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
             console.log('res',res)
           if (res.statusCode == 200 && res.data.status == "SUCCEED") {
             this.setData({
@@ -98,6 +99,7 @@ Page({
         console.log('e',e)
         var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
         var jump_url = e.currentTarget.dataset.jump_url;
+        var stat_view = e.currentTarget.dataset.stat_view;
         var userInfo = "";
         if(wx.getStorageSync('userInfo')){
             userInfo = wx.getStorageSync('userInfo')
@@ -106,6 +108,12 @@ Page({
         apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
             console.log('记录',res)
         })
+
+         // 曝光量
+         wx.request({
+          url: stat_view,
+        }) 
+
         wx.navigateTo({
           url: '/pages/webView/webView?jump_url='+jump_url
         })
@@ -114,6 +122,7 @@ Page({
     // 点击量
     postClickLog(e) {
         var jump_url = e.currentTarget.dataset.jump_url;
+        var stat_view = e.currentTarget.dataset.stat_view;
         var quick_iborrow_id = e.currentTarget.dataset.quick_iborrow_id;
         var userInfo = "";
         if(wx.getStorageSync('userInfo')){
@@ -123,8 +132,25 @@ Page({
         apiRequest('/i/weixinsiz/savehistory','POST',{quick_iborrow_id:quick_iborrow_id,user_id:userInfo.user_id},{'content-type':'application/x-www-form-urlencoded'}).then(res => {
             console.log('记录',res)
         })
+        // 点击量
         wx.request({
           url: jump_url,
+        }) 
+        // 曝光量
+        wx.request({
+          url: stat_view,
+        }) 
+    },
+
+
+    // 点击领取按钮统计曝光
+    postClickLogTwo(e){
+        console.log('点击领取按钮统计曝光',this.data.stat_view)
+        wx.request({
+          url: this.data.stat_view,
+          success (res) {
+            console.log('点击领取按钮统计曝光sss',res)
+          }
         }) 
     },
 
@@ -133,6 +159,11 @@ Page({
         console.log('options',options)
         var index = options.currentTarget.dataset.index;
         var quick_iborrow_id = options.currentTarget.dataset.quick_iborrow_id;
+        var stat_view = options.currentTarget.dataset.stat_view;
+        this.setData({
+            stat_view:stat_view
+        })
+        // console.log('jump_url',jump_url,this.data.jump_url,)
         var sessionFrom = options.currentTarget.dataset.sessionfrom;
         var userInfo = "";
         if(wx.getStorageSync('userInfo')){
@@ -201,7 +232,9 @@ Page({
         title: this.igame_title || '',
         path: '/pages/index/index'
       }
-    }
+    },
+
+    
 })
 
 
