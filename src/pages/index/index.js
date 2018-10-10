@@ -74,6 +74,7 @@ Page({
     // 再次加载页面，看是否缓存中有登陆状态，没有的话就跳转到授权登陆页进行授权
     onShow(){
         if(!wx.getStorageSync('isAuthorize')){
+            console.log('无无isAuthorize')
             wx.redirectTo({
                 url: '/pages/authorize/authorize',
             })

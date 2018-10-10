@@ -6,7 +6,7 @@ App({
 	    // 当向微信后台请求完新版本信息，会进行回调
 	    updateManager.onCheckForUpdate(function (res) {
 	      // 请求完新版本信息的回调
-	      console.log(111,res.hasUpdate)
+	      // console.log(111,res.hasUpdate)
 	    })
 	    // 当新版本下载完成，会进行回调
 	    updateManager.onUpdateReady(function () {
@@ -33,29 +33,65 @@ App({
 
     	// 获取是否授权状态
     	if(!wx.getStorageSync('isAuthorize')){
+    		console.log('无授权状态2222')
             wx.redirectTo({
                 url: '/pages/authorize/authorize',
             })
+        }else{
+	        // 检测登录态wx.checkSession
+	        wx.checkSession({
+				success: function(){
+					//session_key 未过期，并且在本生命周期一直有效
+					console.log('session_key 未失效')
+				},
+				fail: function(){
+					// session_key 已经失效，需要重新执行登录流程
+					console.log('session_key 已失效')
+					wx.removeStorageSync('isAuthorize')
+					wx.removeStorageSync('userInfo')
+					console.log('有授权状态，但授权态过期3333')
+					// if(!wx.getStorageSync('isAuthorize')){
+			            wx.redirectTo({
+			                url: '/pages/authorize/authorize',
+			            })
+			  //       }
+				}
+			})
         }
-        // 检测登录态wx.checkSession
-        wx.checkSession({
-			success: function(){
-				console.log('session_key 未失效')
-				//session_key 未过期，并且在本生命周期一直有效
-			},
-			fail: function(){
-				// session_key 已经失效，需要重新执行登录流程
-				console.log('session_key 已失效')
-				wx.removeStorageSync('isAuthorize')
-				wx.removeStorageSync('userInfo')
-				if(!wx.getStorageSync('isAuthorize')){
-		            wx.redirectTo({
-		                url: '/pages/authorize/authorize',
-		            })
-		        }
-			}
-		})
+
     },
+
+   //  onShow: function(){
+   //  	// 获取是否授权状态
+   //  	if(!wx.getStorageSync('isAuthorize')){
+   //  		console.log('show无授权状态2222')
+   //          wx.redirectTo({
+   //              url: '/pages/authorize/authorize',
+   //          })
+   //      }else{
+	  //       // 检测登录态wx.checkSession
+	  //       wx.checkSession({
+			// 	success: function(){
+			// 		//session_key 未过期，并且在本生命周期一直有效
+			// 		console.log('session_key 未失效')
+			// 	},
+			// 	fail: function(){
+			// 		// session_key 已经失效，需要重新执行登录流程
+			// 		console.log('session_key 已失效')
+			// 		wx.removeStorageSync('isAuthorize')
+			// 		wx.removeStorageSync('userInfo')
+			// 		console.log('show有授权状态，但授权态过期3333')
+			// 		// if(!wx.getStorageSync('isAuthorize')){
+			//             wx.redirectTo({
+			//                 url: '/pages/authorize/authorize',
+			//             })
+			//   //       }
+			// 	}
+			// })
+   //      }
+
+   //  },
+   
     globalData: {
         userInfo: null,
         API_PATH:'https://api.topeffects.cn/'
